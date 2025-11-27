@@ -1,0 +1,74 @@
+@"
+# Environment variables
+.env
+.env.local
+*.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.Python
+venv/
+ENV/
+env/
+
+# Caches - IMPORTANT: Cache large dataset files
+cache/
+.cache/
+*.cache
+.pytest_cache/
+.streamlit/
+
+# HuggingFace datasets cache
+~/.cache/
+.huggingface/
+
+# Results and logs
+results/
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data
+data/
+*.csv
+*.xlsx
+*.json.bak
+
+# Model checkpoints
+checkpoints/
+models/
+*.pt
+*.pth
+*.ckpt
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Temporary files
+*.tmp
+*.temp
+~*
+
+# Large files (if any)
+*.zip
+*.tar.gz
+*.7z
+"@ | Out-File -FilePath .gitignore -Encoding UTF8
