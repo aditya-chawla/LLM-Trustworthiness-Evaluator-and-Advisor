@@ -47,10 +47,6 @@ streamlit run app.py
 ```
 Open browser to: http://localhost:8501
 
-## That's It! 🚀
-
-**No .env file needed** - just set the environment variable like you did locally.
-
 ## Features
 - ✅ 3 models evaluated in parallel (5x speedup)
 - ✅ 4 dimensions: toxicity, bias, truthfulness, safety
@@ -140,19 +136,3 @@ llm-trustworthiness-advisor/
 ## License
 
 MIT License
-
-## Authors
-
-- **Aditya** - Graduate Student, MS AI at SJSU
-
-## Acknowledgments
-
-- Groq for fast, free inference
-- HuggingFace for datasets and models
-- Streamlit for interactive dashboards
-- Detoxify for toxicity detection
-
----
-
-**Last Updated**: November 27, 2025
-**Status**: ✅ Complete and Working
