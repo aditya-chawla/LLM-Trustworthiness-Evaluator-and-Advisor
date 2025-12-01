@@ -14,7 +14,7 @@ from config import RESULTS_FILE
 # Page configuration
 st.set_page_config(
     page_title="LLM Trustworthiness Advisor",
-    page_icon="🤖",
+    page_icon="",
     layout="wide"
 )
 
@@ -115,39 +115,39 @@ def create_detailed_table(results):
             'Fairness': f"{1 - scores['bias']['bias_score']:.3f}",
             'Truthfulness': f"{scores['truthfulness']['accuracy']:.3f}",
             'Safety': f"{scores['safety']['safety_score']:.3f}",
-            'Status': '✅ Passed' if scores['overall'] > 0.6 else '⚠️  Review'
+            'Status': ' Passed' if scores['overall'] > 0.6 else '  Review'
         })
     
     df = pd.DataFrame(data)
     return df
 
 def main():
-    st.title("🤖 LLM Trustworthiness Advisor")
+    st.title(" LLM Trustworthiness Advisor")
     st.markdown("*Evaluating language models across safety, bias, truthfulness, and toxicity*")
     
     # Load results
     results = load_results()
     
     if results is None:
-        st.warning("⚠️  No evaluation results found. Please run `python main.py` first.")
-        st.info("💡 This will evaluate models and generate results.")
+        st.warning("  No evaluation results found. Please run `python main.py` first.")
+        st.info(" This will evaluate models and generate results.")
         return
     
     # Sidebar
-    st.sidebar.header("📊 Navigation")
+    st.sidebar.header(" Navigation")
     page = st.sidebar.radio(
         "Select View",
         ["Overview", "Detailed Metrics", "Model Recommender"]
     )
     
     if page == "Overview":
-        st.header("📈 Model Comparison Overview")
+        st.header(" Model Comparison Overview")
         
         # Radar chart
         st.plotly_chart(create_radar_chart(results), use_container_width=True)
         
         # Summary table
-        st.subheader("📋 Summary Table")
+        st.subheader(" Summary Table")
         st.dataframe(create_detailed_table(results), use_container_width=True)
         
         # Metadata
@@ -163,7 +163,7 @@ def main():
                      best_model['model'].split('/')[-1])
     
     elif page == "Detailed Metrics":
-        st.header("🔍 Detailed Performance Metrics")
+        st.header(" Detailed Performance Metrics")
         
         # Dimension selector
         dimension = st.selectbox(
@@ -178,7 +178,7 @@ def main():
         # Detailed breakdown
         st.subheader("Detailed Breakdown")
         for model_data in results['models']:
-            with st.expander(f"📊 {model_data['model'].split('/')[-1]}"):
+            with st.expander(f" {model_data['model'].split('/')[-1]}"):
                 scores = model_data['scores']
                 
                 col1, col2 = st.columns(2)
@@ -200,11 +200,11 @@ def main():
                 st.markdown("**Dimension Status:**")
                 for dim in ['toxicity', 'bias', 'truthfulness', 'safety']:
                     passed = scores[dim].get('passed', False)
-                    status = "✅ Passed" if passed else "❌ Failed"
+                    status = " Passed" if passed else " Failed"
                     st.markdown(f"- {dim.capitalize()}: {status}")
     
     else:  # Model Recommender
-        st.header("🎯 Model Recommendation System")
+        st.header(" Model Recommendation System")
         
         st.markdown("""
         Describe your use case and requirements, and get an AI-powered 
@@ -228,7 +228,7 @@ def main():
             if not use_case:
                 st.warning("Please describe your use case first.")
             else:
-                with st.spinner("🤔 Analyzing models and generating recommendation..."):
+                with st.spinner(" Analyzing models and generating recommendation..."):
                     try:
                         # Get Groq API key
                         groq_api_key = os.getenv('GROQ_API_KEY')
@@ -244,8 +244,8 @@ def main():
                             results, user_requirements
                         )
                         
-                        st.success("✅ Recommendation Generated!")
-                        st.markdown("### 🎯 Recommendation")
+                        st.success(" Recommendation Generated!")
+                        st.markdown("###  Recommendation")
                         st.markdown(recommendation)
                         
                     except Exception as e:
@@ -253,7 +253,7 @@ def main():
         
         # Quick recommendations
         st.markdown("---")
-        st.subheader("⚡ Quick Recommendations")
+        st.subheader(" Quick Recommendations")
         
         col1, col2, col3, col4 = st.columns(4)
         
@@ -299,7 +299,7 @@ def main():
         
         # Model comparison
         st.markdown("---")
-        st.subheader("📊 Full Model Comparison")
+        st.subheader(" Full Model Comparison")
         try:
             groq_api_key = os.getenv('GROQ_API_KEY')
             recommender = LLMRecommender(groq_api_key=groq_api_key)

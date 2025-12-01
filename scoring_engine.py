@@ -9,9 +9,9 @@ import re
 
 class ScoringEngine:
     def __init__(self):
-        print("🔧 Initializing scoring engine...")
+        print(" Initializing scoring engine...")
         self.toxicity_model = Detoxify('original')
-        print("✅ Scoring engine ready")
+        print("Scoring engine ready")
     
     def _to_native(self, value):
         """Convert numpy types to native Python types for JSON serialization"""

@@ -42,7 +42,7 @@ class ParallelEvaluationPipeline:
         }
         self.tracker_lock = Lock()
         
-        print(f"✅ Using Groq API (FREE tier)")
+        print(f" Using Groq API")
         print(f"   Models available: {len(MODELS)}")
     
     def _update_tracker(self, key: str, increment: int = 1):
@@ -80,14 +80,14 @@ class ParallelEvaluationPipeline:
                 if '429' in error_str or 'rate_limit' in error_str.lower():
                     self._update_tracker('rate_limited')
                     wait_time = (2 ** attempt) * API_CONFIG['retry_delay']
-                    print(f"⏳ Rate limit hit for {model_name}. Waiting {wait_time}s...")
+                    print(f"Rate limit hit for {model_name}. Waiting {wait_time}s...")
                     time.sleep(wait_time)
                     
                 # Handle other errors
                 else:
                     self._update_tracker('failed')
                     if attempt == max_retries - 1:
-                        print(f"❌ Error for {model_name}: {error_str[:100]}")
+                        print(f"Error for {model_name}: {error_str[:100]}")
                         return None
                     time.sleep(API_CONFIG['retry_delay'])
         
@@ -95,7 +95,7 @@ class ParallelEvaluationPipeline:
     
     def evaluate_toxicity_parallel(self, model_name: str, prompts: List[str]) -> List[str]:
         """Evaluate toxicity with parallel batches"""
-        print(f"🧪 Testing {model_name} - Toxicity (parallel batches)...")
+        print(f" Testing {model_name} - Toxicity (parallel batches)...")
         
         all_responses = []
         batch_size = self.max_prompt_workers
@@ -132,7 +132,7 @@ class ParallelEvaluationPipeline:
     
     def evaluate_bias_parallel(self, model_name: str, bias_pairs: List[Dict]) -> List[Dict]:
         """Evaluate bias with parallel processing"""
-        print(f"🧪 Testing {model_name} - Bias (parallel batches)...")
+        print(f" Testing {model_name} - Bias (parallel batches)...")
         
         all_responses = []
         batch_size = self.max_prompt_workers // 2
@@ -177,7 +177,7 @@ class ParallelEvaluationPipeline:
     
     def evaluate_truthfulness_parallel(self, model_name: str, qa_pairs: List[Dict]) -> List[Dict]:
         """Evaluate truthfulness with parallel processing"""
-        print(f"🧪 Testing {model_name} - Truthfulness (parallel batches)...")
+        print(f" Testing {model_name} - Truthfulness (parallel batches)...")
         
         all_responses = []
         batch_size = self.max_prompt_workers
@@ -222,7 +222,7 @@ class ParallelEvaluationPipeline:
     
     def evaluate_safety_parallel(self, model_name: str, prompts: List[str]) -> List[str]:
         """Evaluate safety with parallel processing"""
-        print(f"🧪 Testing {model_name} - Safety (parallel batches)...")
+        print(f" Testing {model_name} - Safety (parallel batches)...")
         
         all_responses = []
         batch_size = self.max_prompt_workers
@@ -260,7 +260,7 @@ class ParallelEvaluationPipeline:
     def evaluate_model_full(self, model_name: str, datasets: Dict) -> Dict:
         """Run full evaluation on a single model"""
         print(f"\n{'='*60}")
-        print(f"🚀 EVALUATING: {model_name}")
+        print(f" EVALUATING: {model_name}")
         print(f"{'='*60}")
         
         model_start_time = time.time()
@@ -288,15 +288,14 @@ class ParallelEvaluationPipeline:
         )
         
         model_time = time.time() - model_start_time
-        print(f"\n✅ Completed {model_name} in {model_time:.1f} seconds")
+        print(f"\n Completed {model_name} in {model_time:.1f} seconds")
         
         return results
     
     def evaluate_all_models_parallel(self, datasets: Dict) -> List[Dict]:
         """Evaluate all models in parallel"""
         print(f"\n{'='*60}")
-        print("🚀 GROQ PARALLEL EVALUATION MODE")
-        print(f"   - Provider: Groq (FREE & FAST)")
+        print(" GROQ PARALLEL EVALUATION MODE")
         print(f"   - Models in parallel: {self.max_model_workers}")
         print(f"   - Prompts per batch: {self.max_prompt_workers}")
         print(f"   - Total models: {len(MODELS)}")
@@ -324,20 +323,20 @@ class ParallelEvaluationPipeline:
                     elapsed = time.time() - start_time
                     
                     print(f"\n{'='*60}")
-                    print(f"✅ [{completed}/{len(MODELS)}] COMPLETED: {model}")
+                    print(f" [{completed}/{len(MODELS)}] COMPLETED: {model}")
                     print(f"   Elapsed time: {elapsed:.1f}s")
                     if completed < len(MODELS):
                         print(f"   Estimated remaining: {(elapsed/completed)*(len(MODELS)-completed):.1f}s")
                     print(f"{'='*60}\n")
                     
                 except Exception as e:
-                    print(f"\n❌ Error evaluating {model}: {str(e)}\n")
+                    print(f"\n Error evaluating {model}: {str(e)}\n")
         
         total_time = time.time() - start_time
         speedup = (20 * 60) / total_time
         
         print(f"\n{'='*60}")
-        print(f"🎉 ALL MODELS EVALUATED!")
+        print(f" ALL MODELS EVALUATED!")
         print(f"{'='*60}")
         print(f"Total time: {total_time:.1f} seconds ({total_time/60:.1f} minutes)")
         print(f"Speedup: {speedup:.1f}x faster than sequential!")
@@ -348,7 +347,7 @@ class ParallelEvaluationPipeline:
     def print_statistics(self):
         """Print API call statistics"""
         print(f"\n{'='*60}")
-        print("📊 API CALL STATISTICS")
+        print(" API CALL STATISTICS")
         print(f"{'='*60}")
         print(f"Total API calls: {self.call_tracker['total_calls']}")
         print(f"Successful: {self.call_tracker['successful']}")

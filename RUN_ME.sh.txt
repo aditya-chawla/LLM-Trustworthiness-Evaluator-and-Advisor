@@ -1,24 +1,24 @@
 #!/bin/bash
 
-echo "🚀 LLM Trustworthiness Advisor Setup"
+echo " LLM Trustworthiness Advisor Setup"
 echo "===================================="
 
 # Step 1: Install dependencies
-echo "📦 Installing dependencies..."
+echo "Installing dependencies..."
 pip install -r requirements.txt
 
 # Step 2: Set HF token
 echo ""
-echo "🔑 Please enter your Hugging Face token:"
+echo "Please enter your Hugging Face token:"
 read -s HF_TOKEN
 export HF_TOKEN=$HF_TOKEN
 
 # Step 3: Run evaluation
 echo ""
-echo "🧪 Starting model evaluation..."
+echo " Starting model evaluation..."
 python main.py
 
 # Step 4: Launch dashboard
 echo ""
-echo "🎨 Launching dashboard..."
+echo " Launching dashboard..."
 streamlit run app.py

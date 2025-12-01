@@ -31,22 +31,16 @@ def convert_to_serializable(obj):
 
 def main():
     print("\n" + "="*70)
-    print("🤖 LLM TRUSTWORTHINESS EVALUATION SYSTEM")
-    print("   Using GROQ API (FREE & SUPER FAST!)")
+    print(" LLM TRUSTWORTHINESS EVALUATION SYSTEM")
     print("="*70 + "\n")
     
     # Check for Groq API key
     groq_api_key = os.getenv('GROQ_API_KEY')
     if not groq_api_key:
-        print("❌ Error: GROQ_API_KEY not found!")
-        print("💡 Get your free API key:")
-        print("   1. Go to: https://console.groq.com/")
-        print("   2. Sign up (no credit card needed!)")
-        print("   3. Create API key")
-        print("   4. Set: $env:GROQ_API_KEY='your_key'")
+        print(" Error: GROQ_API_KEY not found!")
         return
     
-    print("✅ Groq API key loaded")
+    print(" Groq API key loaded")
     
     # Create results directory
     os.makedirs('results', exist_ok=True)
@@ -74,8 +68,6 @@ def main():
     # Step 4: Evaluate models
     print("\nSTEP 4: Evaluating Models (PARALLEL MODE)")
     print("-" * 70)
-    print("⚡ Using Groq's blazing fast inference!")
-    print("⚡ Expected time: ~5-6 minutes\n")
     
     eval_start_time = datetime.now()
     all_raw_results = pipeline.evaluate_all_models_parallel(datasets)
@@ -96,7 +88,7 @@ def main():
     
     for raw_result in all_raw_results:
         model_name = raw_result['model']
-        print(f"\n📊 Computing scores for {model_name}...")
+        print(f"\n Computing scores for {model_name}...")
         
         toxicity_scores = scorer.score_toxicity(
             raw_result['raw_responses']['toxicity']
@@ -135,7 +127,7 @@ def main():
         
         all_results['models'].append(model_results)
         
-        print(f"✅ Results for {model_name}:")
+        print(f" Results for {model_name}:")
         print(f"   Overall Score: {overall_score:.3f}")
         print(f"   Low Toxicity: {1 - toxicity_scores['mean_toxicity']:.3f}")
         print(f"   Fairness: {1 - bias_scores['bias_score']:.3f}")
@@ -154,33 +146,31 @@ def main():
         with open(RESULTS_FILE, 'w') as f:
             json.dump(all_results_serializable, f, indent=2)
         
-        print(f"✅ Results saved to: {RESULTS_FILE}")
+        print(f" Results saved to: {RESULTS_FILE}")
     except Exception as e:
-        print(f"❌ Error saving results: {e}")
+        print(f" Error saving results: {e}")
         print("Trying alternative save method...")
         import codecs
         with codecs.open(RESULTS_FILE, 'w', encoding='utf-8') as f:
             json.dump(all_results_serializable, f, indent=2, ensure_ascii=False)
-        print(f"✅ Results saved to: {RESULTS_FILE} (alternative method)")
+        print(f" Results saved to: {RESULTS_FILE} (alternative method)")
     
     # Statistics
     pipeline.print_statistics()
     
     # Final summary
     print("\n" + "="*70)
-    print("🎉 EVALUATION COMPLETE!")
+    print(" EVALUATION COMPLETE!")
     print("="*70)
-    print(f"\n✅ Evaluated {len(MODELS)} models")
-    print(f"✅ Total time: {eval_duration:.1f}s ({eval_duration/60:.1f} min)")
-    print(f"⚡ Using Groq's FREE tier - blazing fast!")
+    print(f"\n Evaluated {len(MODELS)} models")
+    print(f" Total time: {eval_duration:.1f}s ({eval_duration/60:.1f} min)")
+    print(f" Using Groq's FREE tier - blazing fast!")
     
-    print(f"\n📊 Results Summary:")
+    print(f"\n Results Summary:")
     print(f"   Overall best model: {all_results_serializable['models'][0]['model']}")
     print(f"   Best overall score: {all_results_serializable['models'][0]['scores']['overall']:.3f}")
     
-    print(f"\n💡 Next steps:")
-    print(f"   1. View dashboard: streamlit run app.py")
-    print(f"   2. Check results: {RESULTS_FILE}")
+    print(f" View results in dashboard: streamlit run app.py")
     print("\n")
 
 if __name__ == "__main__":
